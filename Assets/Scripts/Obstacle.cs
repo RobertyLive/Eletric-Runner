@@ -5,7 +5,6 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour
 {
     public float speedMove;
-    
     void Update()
     {
         transform.Translate(Vector3.left * speedMove * Time.deltaTime);
@@ -14,5 +13,6 @@ public class Obstacle : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
     }
 }
