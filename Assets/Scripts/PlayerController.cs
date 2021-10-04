@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerPosY = transform.position.y;
-        GameManager.instance.txtLife.text = life.ToString(); ;
+        GameManager.instance.txtLife.text = life.ToString();
     }
     void Update()
     {
@@ -32,14 +32,14 @@ public class PlayerController : MonoBehaviour
         {
             life--;
 
-
-            if(life < 1)
+            if (life < 1)
             {
-
+                obstacleSpwaned.StopCorotine();
                 GameManager.instance.ShowPainel(true);
                 Destroy(this.gameObject);
-                obstacleSpwaned.StopCoroutine(obstacleSpwaned.SpawnObstacle());
             }
+
+            GameManager.instance.txtLife.text = life.ToString();
         }
     }
 }

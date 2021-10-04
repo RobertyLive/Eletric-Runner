@@ -125,4 +125,9 @@ public class ObstacleSpwaned : MonoBehaviour
                 break;
         }
     }
+
+    public void StopCorotine()
+    {
+        StopCoroutine(nameof(SpawnObstacle));
+    }
 }
