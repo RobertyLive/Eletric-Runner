@@ -14,7 +14,10 @@ public class ObstacleSpwaned : MonoBehaviour
     [Header("Posicao para spwanar")]
     [SerializeField] private Vector3 spawnPos; //posicao top botton
 
-    
+    [Header("Desafio")]
+    float timeChallenger;
+    public Obstacle obstacleInstance;
+    public PlayerController playerInstance;
 
 
     private void Awake()
@@ -24,7 +27,7 @@ public class ObstacleSpwaned : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(Time.time);
+        timeChallenger = Time.time;
     }
 
     private void Init()
@@ -34,12 +37,12 @@ public class ObstacleSpwaned : MonoBehaviour
         StartCoroutine(nameof(SpawnObstacle));
     }
 
-    IEnumerator SpawnObstacle()
+    public IEnumerator SpawnObstacle()
     {
         while(true)
         {
             Spawn();
-            Challenge();
+       
             yield return new WaitForSeconds(spawnRate);
         }
     }
@@ -60,7 +63,6 @@ public class ObstacleSpwaned : MonoBehaviour
 
         if(random < 1)
         {
-            //timeCor();
             Instantiate(obstacle[randObstacle], spawnPos, transform.rotation);
         }
         else
@@ -80,6 +82,7 @@ public class ObstacleSpwaned : MonoBehaviour
 
             GameObject obj = Instantiate(obstacle[randObstacle], spawnPos, transform.rotation);
             obj.transform.eulerAngles = new Vector3(0, 0, 180);
+
             if(obj.GetComponent<Obstacle>().speedMove > 0)
             {
                 obj.GetComponent<Obstacle>().speedMove *= -1f;
@@ -88,10 +91,9 @@ public class ObstacleSpwaned : MonoBehaviour
             {
                 obj.GetComponent<Obstacle>().speedMove *= 1f;
             }
-            
         }
 
-        Desafi();
+        Challenger();
 
     }
     private void TimeRate()
@@ -99,21 +101,28 @@ public class ObstacleSpwaned : MonoBehaviour
         spawnPos = transform.position;
     }
 
-    private void Challenge()
+    private void Challenger()
     {
-        if(Time.time > 10f)
-            spawnRate = .7f;
-    }
+        //if(Time.time == 10f)
+        //{
+        //    obstacle[Random.Range(0, obstacle.Length)].GetComponent<Obstacle>().speedMove = 15f;
+        //}
+        //else if(Time.time > 20f)
+        //{
+        //     obstacle[Random.Range(0, obstacle.Length)].GetComponent<Obstacle>().speedMove = 25f;
+        //}
 
-    private void Desafi()
-    {
-        if(Time.time == 10f)
+        switch (timeChallenger)
         {
-            obstacle[Random.Range(0, obstacle.Length)].GetComponent<Obstacle>().speedMove = 15f;
-        }
-        else if(Time.time > 20f)
-        {
-             obstacle[Random.Range(0, obstacle.Length)].GetComponent<Obstacle>().speedMove = 25f;
+            case 10f:
+                obstacleInstance.speedMove = 10f;
+                break;
+            case 20f:
+                obstacleInstance.speedMove = 20f;
+                break;
+            default:
+                obstacleInstance.speedMove = timeChallenger;
+                break;
         }
     }
 }
