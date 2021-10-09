@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     float playerPosY;
     public int life = 3;
+    public GameObject particuleSystem;
 
     public ObstacleSpwaned obstacleSpwaned;
 
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
             playerPosY = -playerPosY;
 
             transform.position = new Vector3(transform.position.x, playerPosY, transform.position.z);
+            particuleSystem.transform.position = new Vector3(transform.position.x, playerPosY, transform.position.z);
         }
     }
 
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
                 obstacleSpwaned.StopCorotine();
                 GameManager.instance.ShowPainel(true);
                 Destroy(this.gameObject);
+                Destroy(particuleSystem);
             }
 
             GameManager.instance.txtLife.text = life.ToString();

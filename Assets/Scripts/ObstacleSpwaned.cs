@@ -15,34 +15,33 @@ public class ObstacleSpwaned : MonoBehaviour
     [SerializeField] private Vector3 spawnPos; //posicao top botton
 
     [Header("Desafio")]
-    float timeChallenger;
     public Obstacle obstacleInstance;
     public PlayerController playerInstance;
+
+    public bool Started = false;
 
 
     private void Awake()
     {
         Init();
     }
-
     private void Update()
     {
-        timeChallenger = Time.time;
+        Challenger();
     }
 
     private void Init()
     {
         spawnPos = transform.position;
-        //InvokeRepeating(nameof(Spawn), 1f, spawnRate);
-        StartCoroutine(nameof(SpawnObstacle));
+        StartCoroutine(nameof(Starte));
     }
 
     public IEnumerator SpawnObstacle()
     {
-        while(true)
+        while(Started)
         {
             Spawn();
-       
+            
             yield return new WaitForSeconds(spawnRate);
         }
     }
@@ -92,9 +91,6 @@ public class ObstacleSpwaned : MonoBehaviour
                 obj.GetComponent<Obstacle>().speedMove *= 1f;
             }
         }
-
-        Challenger();
-
     }
     private void TimeRate()
     {
@@ -103,31 +99,25 @@ public class ObstacleSpwaned : MonoBehaviour
 
     private void Challenger()
     {
-        //if(Time.time == 10f)
-        //{
-        //    obstacle[Random.Range(0, obstacle.Length)].GetComponent<Obstacle>().speedMove = 15f;
-        //}
-        //else if(Time.time > 20f)
-        //{
-        //     obstacle[Random.Range(0, obstacle.Length)].GetComponent<Obstacle>().speedMove = 25f;
-        //}
-
-        switch (timeChallenger)
+        if (Time.time == 10f)
         {
-            case 10f:
-                obstacleInstance.speedMove = 10f;
-                break;
-            case 20f:
-                obstacleInstance.speedMove = 20f;
-                break;
-            default:
-                obstacleInstance.speedMove = timeChallenger;
-                break;
+            obstacle[Random.Range(0, obstacle.Length)].GetComponent<Obstacle>().speedMove = 15f;
+        }
+        else if (Time.time > 20f)
+        {
+            obstacle[Random.Range(0, obstacle.Length)].GetComponent<Obstacle>().speedMove = 25f;
         }
     }
 
     public void StopCorotine()
     {
         StopCoroutine(nameof(SpawnObstacle));
+    }
+
+    IEnumerator Starte()
+    {
+        yield return new WaitForSeconds(5f);
+        Started = true;
+        StartCoroutine(nameof(SpawnObstacle));
     }
 }

@@ -10,8 +10,10 @@ public class GameManager : MonoBehaviour
 
     public Text txtLife;
 
+
     private void Awake()
     {
+
         if(instance == null)
         {
             instance = this;
